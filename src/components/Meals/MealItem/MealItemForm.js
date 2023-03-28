@@ -8,7 +8,7 @@ const MealItemForm = props => {
 
     {/* See Input comment to see how these props are being passed down to the inner input component */}
     <Input label="Amount" input={{
-        id: 'amount',
+        id: 'amount_' + props.id,
         type: 'number',
         min: '1',
         max: '5',
