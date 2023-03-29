@@ -8,7 +8,27 @@ const defaultCartState = {
 
 const cartReducer = (state, action) => {
     if (action.type === 'ADD') {
-        const updatedItems = state.items.concat(action.item); // method that adds a new item to an array but returns a new array.
+
+        // findIndex method finds the index of an item in the array.
+        // So in this case, the method will return true if there is an item in the array that has the same id as this item that's being
+        // added's id. If it exists it will return the index of the item.
+        const existingCartItemIndex = state.items.findIndex(item => item.id === action.item.id);
+
+        const existingCartItem = state.items[existingCartItemIndex];
+
+        
+        let updatedItems;
+
+        if (existingCartItem) {
+            const updatedItem = {
+                ...existingCartItem,
+                amount: existingCartItem.amount + action.item.amount
+            };
+            updatedItems = [...state.items];
+            updatedItems[existingCartItemIndex] = updatedItem;
+        } else {
+            updatedItems = state.items.concat(action.item); // method that adds a new item to an array but returns a new array.
+        }
         const updatedTotalAmount = state.totalAmount + action.item.price * action.item.amount;
         return {
             items: updatedItems,
