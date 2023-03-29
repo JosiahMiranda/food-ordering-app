@@ -19,14 +19,20 @@ const cartReducer = (state, action) => {
         
         let updatedItems;
 
+        // This will be null if the findIndex method did not find an index - meaning that the item is not already in the list.
         if (existingCartItem) {
+            // create the updated item using the existing item and just increase the amount by how much the user is adding.
             const updatedItem = {
                 ...existingCartItem,
                 amount: existingCartItem.amount + action.item.amount
             };
+            // updatedItems is the same as the current items but then just update the index with the new item.
             updatedItems = [...state.items];
             updatedItems[existingCartItemIndex] = updatedItem;
         } else {
+            // if this is the first time the item is being added, then simply use concat function.
+            // its like .push except it returns a new array instead of editing the old one, which is good
+            // because we don't want to update the state list directly.
             updatedItems = state.items.concat(action.item); // method that adds a new item to an array but returns a new array.
         }
         const updatedTotalAmount = state.totalAmount + action.item.price * action.item.amount;
